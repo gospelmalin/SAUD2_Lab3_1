@@ -70,61 +70,75 @@ public class UI {
 				System.out.println("You want to add a user");
 				UserRepository ur2 = new UserRepository();
 				System.out.print("Enter id for new user: ");
-				int userId = input.nextInt();
-				System.out.print("Enter name of new user: ");
-				String name = input.next() + input.nextLine();
-				System.out.println("Name is: " + name + "\n");
-				System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
-				String profession = input.next() + input.nextLine();
-				System.out.println("Profession is: " + profession + "\n");
-				User user = new User(userId, name, profession);
-				String response = ur2.add(user);
-				System.out.println(response + "\n");
+				if(!input.hasNextInt()) {
+					System.out.println("User id must be a number.\n");
+				}
+				else {
+					int userId = input.nextInt();
+					System.out.print("Enter name of new user: ");
+					String name = input.next() + input.nextLine();
+					System.out.println("Name is: " + name + "\n");
+					System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
+					String profession = input.next() + input.nextLine();
+					System.out.println("Profession is: " + profession + "\n");
+					User user = new User(userId, name, profession);
+					String response = ur2.add(user);
+					System.out.println(response + "\n");
+				}
 			}
 			else if (action == 4) {
 				System.out.println("You want to update a user");
 				UserRepository ur3 = new UserRepository();
 				System.out.print("Enter id for the user to update: ");
-				int userId = input.nextInt();
-				System.out.print("Enter name of the user: ");
-				String name = input.next() + input.nextLine();
-				System.out.print("Enter profession of user. \nIf no profession, enter None: ");
-				String profession = input.next() + input.nextLine();
-				User userOld = ur3.getSelectedUser(userId);
-				System.out.println("You selected to update user " + userOld.getId() + ".\nCurrent name: " + userOld.getName() + "\nProfession: " + userOld.getProfession());
-				System.out.print("Please confirm update (Y/N):");
-				String confirmation= input.next() + input.nextLine();
-				System.out.println("Confirmation: " + confirmation);
-				if(confirmation.equals("Y")) {
-					User updatedUserToBe = new User(userId, name, profession);
-					String response = ur3.update(updatedUserToBe);
-					System.out.println(response + "\n");
-					User updatedUser = ur3.getSelectedUser(userId);
-					System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+				if(!input.hasNextInt()) {
+					System.out.println("User id must be a number.\n");
 				}
 				else {
-					System.out.println("Update cancelled.\n");
+					int userId = input.nextInt();
+					System.out.print("Enter name of the user: ");
+					String name = input.next() + input.nextLine();
+					System.out.print("Enter profession of user. \nIf no profession, enter None: ");
+					String profession = input.next() + input.nextLine();
+					User userOld = ur3.getSelectedUser(userId);
+					System.out.println("You selected to update user " + userOld.getId() + ".\nCurrent name: " + userOld.getName() + "\nProfession: " + userOld.getProfession());
+					System.out.print("Please confirm update (Y/N):");
+					String confirmation= input.next() + input.nextLine();
+					System.out.println("Confirmation: " + confirmation);
+					if(confirmation.equals("Y")) {
+						User updatedUserToBe = new User(userId, name, profession);
+						String response = ur3.update(updatedUserToBe);
+						System.out.println(response + "\n");
+						User updatedUser = ur3.getSelectedUser(userId);
+						System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+					}
+					else {
+						System.out.println("Update cancelled.\n");
+					}
 				}
-				
 			}
 			else if (action == 5) {
 				System.out.println("You want to delete a user");
 				UserRepository ur4 = new UserRepository();
 				System.out.print("Enter id for the user to delete: ");
-				int userId = input.nextInt();
-				
-				User userToDelete = ur4.getSelectedUser(userId);
-				System.out.println("You selected to delete user " + userToDelete.getId() + ".\nName: " + userToDelete.getName() + "\nProfession: " + userToDelete.getProfession());
-				System.out.print("Please confirm deletion of user " + userToDelete.getId() + " (Y/N):");
-				String confirmation= input.next() + input.nextLine();
-				System.out.println("Confirmation: " + confirmation);
-				if(confirmation.equals("Y")) {
-					String response = ur4.delete(userId);
-					System.out.println(response + "\n");
-					}
+				if(!input.hasNextInt()) {
+					System.out.println("User id must be a number.\n");
+				}
 				else {
-					System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
+					int userId = input.nextInt();
 					
+					User userToDelete = ur4.getSelectedUser(userId);
+					System.out.println("You selected to delete user " + userToDelete.getId() + ".\nName: " + userToDelete.getName() + "\nProfession: " + userToDelete.getProfession());
+					System.out.print("Please confirm deletion of user " + userToDelete.getId() + " (Y/N):");
+					String confirmation= input.next() + input.nextLine();
+					System.out.println("Confirmation: " + confirmation);
+					if(confirmation.equals("Y")) {
+						String response = ur4.delete(userId);
+						System.out.println(response + "\n");
+						}
+					else {
+						System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
+						
+					}
 				}
 			}
 
