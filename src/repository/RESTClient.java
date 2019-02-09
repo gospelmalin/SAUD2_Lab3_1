@@ -45,7 +45,7 @@ public class RESTClient {
 				.request(MediaType.APPLICATION_XML)
 				.get(string); // get the XML representation
 		//print the XML representation
-		System.out.println(s); // Kept for reference only
+	//	System.out.println(s); // Kept for reference only
 		return s;
 	}
 	
@@ -66,7 +66,7 @@ public class RESTClient {
 				.request(MediaType.APPLICATION_XML)
 				.get(string); // get the XML representation
 		//print the XML representation
-		System.out.println(s); // Kept for reference only
+	//	System.out.println(s); // Kept for reference only
 		return s;
 	}
 	
@@ -88,9 +88,8 @@ public class RESTClient {
 	       .post(Entity.entity(form,
 	          MediaType.APPLICATION_FORM_URLENCODED_TYPE),
 	          String.class);
-	    String returnMessage = "Add user request returned: \n" + callResult;
-		
-	    System.out.println(returnMessage);
+	    String returnMessage = "Add user request returned: \n" + callResult;		
+	  //  System.out.println(returnMessage);
 	    return returnMessage;
 	}
 	
@@ -113,7 +112,7 @@ public class RESTClient {
 	          MediaType.APPLICATION_FORM_URLENCODED_TYPE),
 	          String.class);
 	    String returnMessage = "Update user request returned: \n" + callResult;
-	    System.out.println(returnMessage);	    
+	   // System.out.println(returnMessage);	    
 	return returnMessage;
 	}
 	
@@ -132,10 +131,28 @@ public class RESTClient {
 	         .request(MediaType.APPLICATION_XML)
 	         .delete(String.class);
 	 String returnMessage = "Delete user request returned: \n" + callResult;
-	 System.out.println(returnMessage);	
+	// System.out.println(returnMessage);	
 	return returnMessage;
 	}
 	
+	/**
+	 * Call API to delete user.
+	 *
+	 * @param user the User
+	 * @return the string returnMessage
+	 */
+	protected String deleteUser(int id) {
+	 RESTClient rc = new RESTClient();
+	 String callResult = rc.client
+	         .target(REST_SERVICE_URL)
+	         .path("/{userid}")
+	         .resolveTemplate("userid", id)
+	         .request(MediaType.APPLICATION_XML)
+	         .delete(String.class);
+	 String returnMessage = "Delete user request returned: \n" + callResult;
+	// System.out.println(returnMessage);	
+	return returnMessage;
+	}
 
 }
 
