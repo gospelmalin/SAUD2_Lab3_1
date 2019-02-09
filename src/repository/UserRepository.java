@@ -87,6 +87,17 @@ public class UserRepository {
 	}
 	
 	/**
+	 * Delete user call to the client.
+	 *
+	 * @return string message
+	 */
+	public String delete(int id) {
+		RESTClient rc = new RESTClient();
+		String message = rc.deleteUser(id);
+		return message;	
+	}
+	
+	/**
 	 * Creating an arraylist of user objects from the xml string.
 	 *
 	 * @param xmlString
