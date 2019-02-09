@@ -54,12 +54,17 @@ public class UI {
 				System.out.println("You want to show selected user");
 				UserRepository ur1 = new UserRepository();
 				System.out.print("Enter id of user to show: ");
-				int userId = input.nextInt();
-				showSelectedUser(userId); //TODO testar att flytta nedanstående kod så här
-				/*
-				User user = ur1.getSelectedUser(userId);
-				System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() + " Profession: " + user.getProfession() + "\n");
-				*/
+				if(!input.hasNextInt()) {
+					System.out.println("User id must be a number.\n");
+				}
+				else {
+					int userId = input.nextInt();
+					showSelectedUser(userId); //TODO testar att flytta nedanstående kod så här
+					/*
+					User user = ur1.getSelectedUser(userId);
+					System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() + " Profession: " + user.getProfession() + "\n");
+					*/
+				}
 			}
 			else if (action == 3) {
 				System.out.println("You want to add a user");
