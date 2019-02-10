@@ -174,7 +174,8 @@ public class UI {
 	
 	/**
 	 * The get all users method.
-	 *
+	 * 
+	 * @return the user ArrayList
 	 */
 	private ArrayList<User> getAllUsers() {
 		UserRepository ur = new UserRepository();
@@ -185,8 +186,8 @@ public class UI {
 	/**
 	 * The check user existance method.
 	 *
-	 * @param int userId
-	 * @return boolean userExist
+	 * @param userId the user id
+	 * @return the boolean
 	 */
 	private boolean checkUserExistance(int userId) {
 		ArrayList<User> allUsers = getAllUsers();
@@ -203,8 +204,8 @@ public class UI {
 	/**
 	 * The show selected user method.
 	 *
-	 * @param int id
-	 * @return user
+	 * @param id the user id
+	 * @return the user
 	 */
 	 private User showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
@@ -217,7 +218,7 @@ public class UI {
 	 /**
 	 * The add user method.
 	 *
-	 * @param User user
+	 * @param user the user to add
 	 */
 	private void addUser(User user) {
 		UserRepository ur = new UserRepository();
@@ -234,7 +235,7 @@ public class UI {
 	/**
 	 * The update user method.
 	 *
-	 * @param User user
+	 * @param user the updated user
 	 */
 	private void updateUser(User updatedUserToBe) {
 		UserRepository ur = new UserRepository();
@@ -242,7 +243,6 @@ public class UI {
 		if (response.equals("Update user request returned: \n<result>success</result>")) {
 			User updatedUser = ur.getSelectedUser(updatedUserToBe.getId());
 			System.out.println("Update successful! \nUpdated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
-			;
 		}
 		else {
 			System.out.println("User with id " + updatedUserToBe.getId() + " could not be updated. Please check your data.\n");
@@ -252,7 +252,7 @@ public class UI {
 	/**
 	 * The delete user method.
 	 *
-	 * @param User user
+	 * @param user the user to delete
 	 */
 	private void deleteUser(User userToDelete) {
 		UserRepository ur = new UserRepository();
