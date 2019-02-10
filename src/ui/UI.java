@@ -15,9 +15,7 @@ public class UI {
 		// print welcome message
 		System.out.println("Welcome to SAUD2! \nAn app to Show, Add, Update or Delete Users in userdblab2 made by Malin\n");
 	while (true) {
-		//UserRepository ur = new UserRepository();
-		//Scanner input = new Scanner(System.in);
-		
+
 		int action; 
 		System.out.println("What do you want to do? \nPlease enter \n1 to Show all users, \n2 to Show selected user, "
 				+ "\n3 to Add user, \n4 to Update user, \n5 to Delete user, or \n99 to Cancel");
@@ -40,16 +38,7 @@ public class UI {
 			}
 			else if (action == 1) {
 				System.out.println("You want to show all users.");
-				showAllUsers(); //TODO testar att flytta nedanstående kod så här
-				/*
-				UserRepository ur = new UserRepository();
-				ArrayList<User> userList = ur.getAllUsers();
-				for(int i = 0; i<userList.size(); i++) {
-					User user = new User();
-					user = userList.get(i);
-					System.out.println(user); //TODO snygga till - men funkar OBS inputvalidering
-				}
-				*/
+				showAllUsers(); 
 			}
 			else if (action == 2) {
 				System.out.println("You want to show selected user");
@@ -60,11 +49,7 @@ public class UI {
 				}
 				else {
 					int userId = input.nextInt();
-					showSelectedUser(userId); //TODO testar att flytta nedanstående kod så här
-					/*
-					User user = ur1.getSelectedUser(userId);
-					System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() + " Profession: " + user.getProfession() + "\n");
-					*/
+					showSelectedUser(userId); 
 				}
 			}
 			else if (action == 3) {
@@ -83,40 +68,27 @@ public class UI {
 					String profession = input.next() + input.nextLine();
 				//	System.out.println("Profession is: " + profession + "\n");
 					User user = new User(userId, name, profession);
-					String response = ur2.add(user);
-				//	System.out.println(response + "\n");
-					if (response.equals("Add user request returned: \n<result>success</result>")) {
-						System.out.println("User with id " + userId + ", " + name + ", " + profession + ", was successfully added.\n");
-					}
-					else {
-						System.out.println("The user with userId " + userId + " could not be added. Please check your data.");
-					}
+					addUser(user); 
 				}
 			}
 			else if (action == 4) {
 				System.out.println("You want to update a user");
-				UserRepository ur3 = new UserRepository();
 				System.out.print("Enter id for the user to update: ");
 				if(!input.hasNextInt()) {
 					System.out.println("User id must be a number.\n");
 				}
 				else {
 					int userId = input.nextInt();
-					System.out.print("Enter name of the user: ");
-					String name = input.next() + input.nextLine();
-					System.out.print("Enter profession of user. \nIf no profession, enter None: ");
-					String profession = input.next() + input.nextLine();
-					User userOld = ur3.getSelectedUser(userId);
-					System.out.println("You selected to update user " + userOld.getId() + ".\nCurrent name: " + userOld.getName() + "\nProfession: " + userOld.getProfession());
-					System.out.print("Please confirm update (Y/N):");
+					showSelectedUser(userId);
+					System.out.print("Please confirm that you want to change this user (Y/N):");
 					String confirmation= input.next() + input.nextLine();
-				//	System.out.println("Confirmation: " + confirmation);
 					if(confirmation.equals("Y")) {
+						System.out.print("Enter name of the user: ");
+						String name = input.next() + input.nextLine();
+						System.out.print("Enter profession of user. \nIf no profession, enter None: ");
+						String profession = input.next() + input.nextLine();
 						User updatedUserToBe = new User(userId, name, profession);
-						String response = ur3.update(updatedUserToBe);
-					//	System.out.println(response + "\n");
-						User updatedUser = ur3.getSelectedUser(userId);
-						System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+						updateUser(updatedUserToBe);
 					}
 					else {
 						System.out.println("Update cancelled.\n");
@@ -158,8 +130,6 @@ public class UI {
 				}
 			}
 
-			// closing scanner
-			//input.close();
 			}
 		}
 	// closing scanner
@@ -190,7 +160,27 @@ public class UI {
 	private void showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
 		User user = ur.getSelectedUser(id);
-		System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() 
+		System.out.println("Showing selected user with id " + user.getId() + "\nName: " + user.getName() 
 		+ " Profession: " + user.getProfession() + "\n");
+	}
+	
+	private void addUser(User user) {
+		UserRepository ur = new UserRepository();
+		String response = ur.add(user);
+	//	System.out.println(response + "\n");
+		if (response.equals("Add user request returned: \n<result>success</result>")) {
+			System.out.println("User with id " + user.getId() + ", " + user.getName() + ", " + user.getProfession() + ", was successfully added.\n");
+		}
+		else {
+			System.out.println("The user with userId " + user.getId() + " could not be added. Please check your data.");
+		}
+	}
+	
+	private void updateUser(User updatedUserToBe) {
+		UserRepository ur = new UserRepository();
+		String response = ur.update(updatedUserToBe);
+		//	System.out.println(response + "\n");
+			User updatedUser = ur.getSelectedUser(updatedUserToBe.getId());
+			System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
 	}
 }
