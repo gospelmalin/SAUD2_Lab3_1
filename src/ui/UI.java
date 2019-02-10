@@ -24,7 +24,6 @@ public class UI {
 		}
 		else {
 			action = input.nextInt();
-		//	System.out.println(action); //TODO TEMP
 			
 			if (action != 1 && action != 2 && action != 3 && action != 4 && action != 5 && action != 99) { 
 				System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.");
