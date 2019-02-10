@@ -97,38 +97,44 @@ public class UI {
 			}
 			else if (action == 5) {
 				System.out.println("You want to delete a user");
-				UserRepository ur4 = new UserRepository();
 				System.out.print("Enter id for the user to delete: ");
 				if(!input.hasNextInt()) {
 					System.out.println("User id must be a number.\n");
 				}
 				else {
 					int userId = input.nextInt();
-					//Nedan konstruktion ger SAX exception: Filen har avslutats för tidigt när user saknas
-					User userToDelete = ur4.getSelectedUser(userId);
-					
-					System.out.println("You selected to delete user " + userToDelete.getId() + ".\nName: " + userToDelete.getName() + "\nProfession: " + userToDelete.getProfession());
-					System.out.print("Please confirm deletion of user " + userToDelete.getId() + " (Y/N):");
-					String confirmation= input.next() + input.nextLine();
-					System.out.println("Confirmation: " + confirmation);
-					if(confirmation.equals("Y")) {
-						String response = ur4.delete(userId);
-					//	System.out.println(response + "\n");
-						if (response.equals("Delete user request returned: \n<result>success</result>")) {
-							System.out.println("User with id " + userToDelete.getId() + ", " + userToDelete.getName() 
-							+ ", " + userToDelete.getProfession() + ", was successfully deleted.\n");
+					boolean userExist = checkUserExistance(userId);
+					/*
+					ArrayList<User> allUsers = getAllUsers();
+					boolean userExist = false;
+					for (User user : allUsers) {
+						if (user.getId() == userId) {
+							userExist = true;
+							break;
 						}
-						else {
-							System.out.println("User with id " + userToDelete.getId() + "could not be deleted. Please check your data.\n");
-						}
-
+					}
+					*/
+					if (!userExist) {
+						System.out.println("The user selected for deletion does not exist.");
 					}
 					else {
-						System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
-						
+						User userToDelete = showSelectedUser(userId);
+						System.out.print("Please confirm that you want to delete this user (Y/N):");
+						String confirmation= input.next() + input.nextLine();
+						if(confirmation.equals("Y")) {
+							deleteUser(userToDelete);
+							//String response = deleteUser(userId);
+							
+						}
+						else {
+							System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
+							
+						}
+						}
+					
 					}
 				}
-			}
+				
 
 			}
 		}
@@ -148,20 +154,43 @@ public class UI {
 	}
 
 	private void showAllUsers() {
-		UserRepository ur = new UserRepository();
-		ArrayList<User> userList = ur.getAllUsers();
+		//UserRepository ur = new UserRepository(); //TODO använd getAllUsers
+	//	ArrayList<User> userList = ur.getAllUsers();
+		ArrayList<User> userList = getAllUsers();
 		for(int i = 0; i<userList.size(); i++) {
 			User user = new User();
 			user = userList.get(i);
 			System.out.println(user); //TODO snygga till - men funkar OBS inputvalidering
 		}
+
 	}
 	
-	private void showSelectedUser(int id) {
+
+	private ArrayList<User> getAllUsers() {
+		UserRepository ur = new UserRepository();
+		ArrayList<User> userList = ur.getAllUsers();
+		return userList;
+	}
+	
+	private boolean checkUserExistance(int userId) {
+		ArrayList<User> allUsers = getAllUsers();
+		boolean userExist = false;
+		for (User user : allUsers) {
+			if (user.getId() == userId) {
+				userExist = true;
+				break;
+			}
+		}
+		return userExist;
+	}
+	
+	 private User showSelectedUser(int id) { //Testar att ändra
+	//private void showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
 		User user = ur.getSelectedUser(id);
 		System.out.println("Showing selected user with id " + user.getId() + "\nName: " + user.getName() 
 		+ " Profession: " + user.getProfession() + "\n");
+		return user; //testar att ändra
 	}
 	
 	private void addUser(User user) {
@@ -182,5 +211,21 @@ public class UI {
 		//	System.out.println(response + "\n");
 			User updatedUser = ur.getSelectedUser(updatedUserToBe.getId());
 			System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+	}
+	
+	private void deleteUser(User userToDelete) {
+		UserRepository ur = new UserRepository();
+		String response = ur.delete(userToDelete.getId());
+		//	System.out.println(response + "\n");
+		
+		if (response.equals("Delete user request returned: \n<result>success</result>")) {
+			System.out.println("User with id " + userToDelete.getId() + ", " + userToDelete.getName() 
+			+ ", " + userToDelete.getProfession() + ", was successfully deleted.\n");
+		}
+		else {
+			System.out.println("User with id " + userToDelete.getId() + "could not be deleted. Please check your data.\n");
+		}
+		
+	
 	}
 }
