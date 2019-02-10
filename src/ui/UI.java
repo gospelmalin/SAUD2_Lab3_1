@@ -41,19 +41,23 @@ public class UI {
 			}
 			else if (action == 2) {
 				System.out.println("You want to show selected user");
-				UserRepository ur1 = new UserRepository();
 				System.out.print("Enter id of user to show: ");
 				if(!input.hasNextInt()) {
 					System.out.println("User id must be a number.\n");
 				}
 				else {
 					int userId = input.nextInt();
+					boolean userExist = checkUserExistance(userId);
+					if (!userExist) {
+						System.err.println("The user with that id does not exist.\n");
+					}
+					else {
 					showSelectedUser(userId); 
+					}
 				}
 			}
 			else if (action == 3) {
 				System.out.println("You want to add a user");
-				UserRepository ur2 = new UserRepository();
 				System.out.print("Enter id for new user: ");
 				if(!input.hasNextInt()) {
 					System.out.println("User id must be a number.\n");
@@ -62,7 +66,7 @@ public class UI {
 					int userId = input.nextInt();
 					boolean userExist = checkUserExistance(userId);
 					if (userExist) {
-						System.out.println("The user with that id already exists.");
+						System.err.println("The user with that id already exists.\n");
 					}
 					else {
 						System.out.print("Enter name of new user: ");
@@ -86,7 +90,7 @@ public class UI {
 					int userId = input.nextInt();
 					boolean userExist = checkUserExistance(userId);
 					if (!userExist) {
-						System.out.println("The user selected for update does not exist.");
+						System.err.println("The user selected for update does not exist.\n");
 					}
 					else {
 						showSelectedUser(userId);
@@ -116,7 +120,7 @@ public class UI {
 					int userId = input.nextInt();
 					boolean userExist = checkUserExistance(userId);
 					if (!userExist) {
-						System.out.println("The user selected for deletion does not exist.");
+						System.err.println("The user selected for deletion does not exist.\n");
 					}
 					else {
 						User userToDelete = showSelectedUser(userId);
@@ -129,16 +133,16 @@ public class UI {
 						}
 						else {
 							System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
-							
-						}
-						}
-					
-					}
-				}
-				
 
+						}
+					}
+				
+				}
 			}
+			
+
 		}
+	}
 	// closing scanner
 	input.close();
   }
@@ -187,8 +191,8 @@ public class UI {
 	//private void showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
 		User user = ur.getSelectedUser(id);
-		System.out.println("Showing selected user with id " + user.getId() + "\nName: " + user.getName() 
-		+ " Profession: " + user.getProfession() + "\n");
+		System.out.println("Showing selected user with id " + user.getId() + ": \nName: " + user.getName() 
+		+ ", Profession: " + user.getProfession() + "\n");
 		return user; //testar att ändra
 	}
 	
@@ -207,9 +211,15 @@ public class UI {
 	private void updateUser(User updatedUserToBe) {
 		UserRepository ur = new UserRepository();
 		String response = ur.update(updatedUserToBe);
-		//	System.out.println(response + "\n");
+		if (response.equals("Update user request returned: \n<result>success</result>")) {
 			User updatedUser = ur.getSelectedUser(updatedUserToBe.getId());
-			System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+			System.out.println("Update successful! \nUpdated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
+			;
+		}
+		else {
+			System.out.println("User with id " + updatedUserToBe.getId() + " could not be updated. Please check your data.\n");
+		}
+			
 	}
 	
 	private void deleteUser(User userToDelete) {
