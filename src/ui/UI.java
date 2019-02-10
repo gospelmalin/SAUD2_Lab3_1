@@ -1,7 +1,6 @@
 package ui;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import model.User;
@@ -25,7 +24,7 @@ public class UI {
 		}
 		else {
 			action = input.nextInt();
-			System.out.println(action); //TODO TEMP
+		//	System.out.println(action); //TODO TEMP
 			
 			if (action != 1 && action != 2 && action != 3 && action != 4 && action != 5 && action != 99) { 
 				System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.");
@@ -61,14 +60,20 @@ public class UI {
 				}
 				else {
 					int userId = input.nextInt();
-					System.out.print("Enter name of new user: ");
-					String name = input.next() + input.nextLine();
-				//	System.out.println("Name is: " + name + "\n");
-					System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
-					String profession = input.next() + input.nextLine();
-				//	System.out.println("Profession is: " + profession + "\n");
-					User user = new User(userId, name, profession);
-					addUser(user); 
+					boolean userExist = checkUserExistance(userId);
+					if (userExist) {
+						System.out.println("The user with that id already exists.");
+					}
+					else {
+						System.out.print("Enter name of new user: ");
+						String name = input.next() + input.nextLine();
+					//	System.out.println("Name is: " + name + "\n");
+						System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
+						String profession = input.next() + input.nextLine();
+					//	System.out.println("Profession is: " + profession + "\n");
+						User user = new User(userId, name, profession);
+						addUser(user); 
+					}
 				}
 			}
 			else if (action == 4) {
@@ -79,19 +84,25 @@ public class UI {
 				}
 				else {
 					int userId = input.nextInt();
-					showSelectedUser(userId);
-					System.out.print("Please confirm that you want to change this user (Y/N):");
-					String confirmation= input.next() + input.nextLine();
-					if(confirmation.equals("Y")) {
-						System.out.print("Enter name of the user: ");
-						String name = input.next() + input.nextLine();
-						System.out.print("Enter profession of user. \nIf no profession, enter None: ");
-						String profession = input.next() + input.nextLine();
-						User updatedUserToBe = new User(userId, name, profession);
-						updateUser(updatedUserToBe);
+					boolean userExist = checkUserExistance(userId);
+					if (!userExist) {
+						System.out.println("The user selected for update does not exist.");
 					}
 					else {
-						System.out.println("Update cancelled.\n");
+						showSelectedUser(userId);
+						System.out.print("Please confirm that you want to change this user (Y/N):");
+						String confirmation= input.next() + input.nextLine();
+						if(confirmation.equals("Y")) {
+							System.out.print("Enter name of the user: ");
+							String name = input.next() + input.nextLine();
+							System.out.print("Enter profession of user. \nIf no profession, enter None: ");
+							String profession = input.next() + input.nextLine();
+							User updatedUserToBe = new User(userId, name, profession);
+							updateUser(updatedUserToBe);
+						}
+						else {
+							System.out.println("Update cancelled.\n");
+						} 
 					}
 				}
 			}
@@ -104,16 +115,6 @@ public class UI {
 				else {
 					int userId = input.nextInt();
 					boolean userExist = checkUserExistance(userId);
-					/*
-					ArrayList<User> allUsers = getAllUsers();
-					boolean userExist = false;
-					for (User user : allUsers) {
-						if (user.getId() == userId) {
-							userExist = true;
-							break;
-						}
-					}
-					*/
 					if (!userExist) {
 						System.out.println("The user selected for deletion does not exist.");
 					}
@@ -154,8 +155,6 @@ public class UI {
 	}
 
 	private void showAllUsers() {
-		//UserRepository ur = new UserRepository(); //TODO använd getAllUsers
-	//	ArrayList<User> userList = ur.getAllUsers();
 		ArrayList<User> userList = getAllUsers();
 		for(int i = 0; i<userList.size(); i++) {
 			User user = new User();
