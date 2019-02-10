@@ -73,12 +73,17 @@ public class UI {
 					else {
 						System.out.print("Enter name of new user: ");
 						String name = input.next() + input.nextLine();
-					//	System.out.println("Name is: " + name + "\n");
-						System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
-						String profession = input.next() + input.nextLine();
-					//	System.out.println("Profession is: " + profession + "\n");
-						User user = new User(userId, name, profession);
-						addUser(user); 
+						if (!name.matches("\\D*")) {
+							System.err.println("Name should not contain any digits.\n");
+						}
+						else {
+						//	System.out.println("Name is: " + name + "\n");
+							System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
+							String profession = input.next() + input.nextLine(); // Profession MIGHT contain digits, thus no check here
+						//	System.out.println("Profession is: " + profession + "\n");
+							User user = new User(userId, name, profession);
+							addUser(user); 
+						}
 					}
 				}
 			}
@@ -101,10 +106,15 @@ public class UI {
 						if(confirmation.equals("Y")) {
 							System.out.print("Enter name of the user: ");
 							String name = input.next() + input.nextLine();
-							System.out.print("Enter profession of user. \nIf no profession, enter None: ");
-							String profession = input.next() + input.nextLine();
-							User updatedUserToBe = new User(userId, name, profession);
-							updateUser(updatedUserToBe);
+							if (!name.matches("\\D*")) {
+								System.err.println("Name should not contain any digits.\n");
+							}
+							else {
+								System.out.print("Enter profession of user. \nIf no profession, enter None: ");
+								String profession = input.next() + input.nextLine();
+								User updatedUserToBe = new User(userId, name, profession);
+								updateUser(updatedUserToBe);
+							}
 						}
 						else {
 							System.out.println("Update cancelled.\n");
