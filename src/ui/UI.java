@@ -77,13 +77,19 @@ public class UI {
 					int userId = input.nextInt();
 					System.out.print("Enter name of new user: ");
 					String name = input.next() + input.nextLine();
-					System.out.println("Name is: " + name + "\n");
+				//	System.out.println("Name is: " + name + "\n");
 					System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
 					String profession = input.next() + input.nextLine();
-					System.out.println("Profession is: " + profession + "\n");
+				//	System.out.println("Profession is: " + profession + "\n");
 					User user = new User(userId, name, profession);
 					String response = ur2.add(user);
 					System.out.println(response + "\n");
+					if (response.equals("Add user request returned: \n<result>success</result>")) {
+						System.out.println("User with id " + userId + ", " + name + ", " + profession + ", was successfully added.\n");
+					}
+					else {
+						System.out.println("The user with userId " + userId + " could not be added. Please check your data.");
+					}
 				}
 			}
 			else if (action == 4) {
