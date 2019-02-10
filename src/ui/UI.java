@@ -11,11 +11,12 @@ public class UI {
 	
 	
 	private void runUI() {
+		Scanner input = new Scanner(System.in);
 		// print welcome message
 		System.out.println("Welcome to SAUD2! \nAn app to Show, Add, Update or Delete Users in userdblab2 made by Malin\n");
 	while (true) {
 		//UserRepository ur = new UserRepository();
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		
 		int action; 
 		System.out.println("What do you want to do? \nPlease enter \n1 to Show all users, \n2 to Show selected user, "
@@ -161,6 +162,8 @@ public class UI {
 			//input.close();
 			}
 		}
+	// closing scanner
+	input.close();
   }
 		
 	
@@ -187,6 +190,7 @@ public class UI {
 	private void showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
 		User user = ur.getSelectedUser(id);
-		System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() + " Profession: " + user.getProfession() + "\n");
+		System.out.println("You selected to show user with id " + user.getId() + "\nName: " + user.getName() 
+		+ " Profession: " + user.getProfession() + "\n");
 	}
 }
