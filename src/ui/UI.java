@@ -83,7 +83,7 @@ public class UI {
 				//	System.out.println("Profession is: " + profession + "\n");
 					User user = new User(userId, name, profession);
 					String response = ur2.add(user);
-					System.out.println(response + "\n");
+				//	System.out.println(response + "\n");
 					if (response.equals("Add user request returned: \n<result>success</result>")) {
 						System.out.println("User with id " + userId + ", " + name + ", " + profession + ", was successfully added.\n");
 					}
@@ -109,11 +109,11 @@ public class UI {
 					System.out.println("You selected to update user " + userOld.getId() + ".\nCurrent name: " + userOld.getName() + "\nProfession: " + userOld.getProfession());
 					System.out.print("Please confirm update (Y/N):");
 					String confirmation= input.next() + input.nextLine();
-					System.out.println("Confirmation: " + confirmation);
+				//	System.out.println("Confirmation: " + confirmation);
 					if(confirmation.equals("Y")) {
 						User updatedUserToBe = new User(userId, name, profession);
 						String response = ur3.update(updatedUserToBe);
-						System.out.println(response + "\n");
+					//	System.out.println(response + "\n");
 						User updatedUser = ur3.getSelectedUser(userId);
 						System.out.println("Updated user details: \nId: " + updatedUser.getId() + "\nName: " + updatedUser.getName() + "\nProfession: " + updatedUser.getProfession() + "\n");
 					}
@@ -131,16 +131,25 @@ public class UI {
 				}
 				else {
 					int userId = input.nextInt();
-					
+					//Nedan konstruktion ger SAX exception: Filen har avslutats för tidigt när user saknas
 					User userToDelete = ur4.getSelectedUser(userId);
+					
 					System.out.println("You selected to delete user " + userToDelete.getId() + ".\nName: " + userToDelete.getName() + "\nProfession: " + userToDelete.getProfession());
 					System.out.print("Please confirm deletion of user " + userToDelete.getId() + " (Y/N):");
 					String confirmation= input.next() + input.nextLine();
 					System.out.println("Confirmation: " + confirmation);
 					if(confirmation.equals("Y")) {
 						String response = ur4.delete(userId);
-						System.out.println(response + "\n");
+					//	System.out.println(response + "\n");
+						if (response.equals("Delete user request returned: \n<result>success</result>")) {
+							System.out.println("User with id " + userToDelete.getId() + ", " + userToDelete.getName() 
+							+ ", " + userToDelete.getProfession() + ", was successfully deleted.\n");
 						}
+						else {
+							System.out.println("User with id " + userToDelete.getId() + "could not be deleted. Please check your data.\n");
+						}
+
+					}
 					else {
 						System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
 						

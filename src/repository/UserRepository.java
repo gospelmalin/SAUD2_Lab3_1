@@ -46,7 +46,7 @@ public class UserRepository {
 		String xmlString = rc.getSelectedUser(userId);
 		ArrayList<User> usersList =  new ArrayList<User>();
 		usersList = jaxbXmlStringToObject(xmlString);
-		int id = usersList.get(0).getId();
+		int id = usersList.get(0).getId();  // TODO handle if no user returned userExists = true if usersList.get(0).getId() >0
 		String name = usersList.get(0).getName();
 		String profession = usersList.get(0).getProfession();
 		User user = new User(id, name, profession);
