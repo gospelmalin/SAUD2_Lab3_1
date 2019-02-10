@@ -8,7 +8,10 @@ import repository.UserRepository;
 
 public class UI {
 	
-	
+	/**
+	 * The run UI method.
+	 *
+	 */
 	private void runUI() {
 		Scanner input = new Scanner(System.in);
 		// print welcome message
@@ -126,12 +129,10 @@ public class UI {
 						System.out.print("Please confirm that you want to delete this user (Y/N): ");
 						String confirmation= (input.next() + input.nextLine()).toUpperCase();
 						if(confirmation.toUpperCase().equals("Y")) {
-							deleteUser(userToDelete);
-							//String response = deleteUser(userId);
-							
+							deleteUser(userToDelete);							
 						}
 						else {
-							System.out.println("Deletion of " + userToDelete.getId() + " cancelled.\n");
+							System.out.println("Deletion of user " + userToDelete.getId() + " cancelled.\n");
 
 						}
 					}
@@ -157,23 +158,36 @@ public class UI {
 		ui.runUI();
 	}
 
+	
+	/**
+	 * The show all users method.
+	 *
+	 */
 	private void showAllUsers() {
 		ArrayList<User> userList = getAllUsers();
 		for(int i = 0; i<userList.size(); i++) {
 			User user = new User();
 			user = userList.get(i);
-			System.out.println(user); //TODO snygga till - men funkar OBS inputvalidering
+			System.out.println(user);
 		}
-
 	}
 	
-
+	/**
+	 * The get all users method.
+	 *
+	 */
 	private ArrayList<User> getAllUsers() {
 		UserRepository ur = new UserRepository();
 		ArrayList<User> userList = ur.getAllUsers();
 		return userList;
 	}
 	
+	/**
+	 * The check user existance method.
+	 *
+	 * @param int userId
+	 * @return boolean userExist
+	 */
 	private boolean checkUserExistance(int userId) {
 		ArrayList<User> allUsers = getAllUsers();
 		boolean userExist = false;
@@ -186,15 +200,25 @@ public class UI {
 		return userExist;
 	}
 	
-	 private User showSelectedUser(int id) { //Testar att ändra
-	//private void showSelectedUser(int id) {
+	/**
+	 * The show selected user method.
+	 *
+	 * @param int id
+	 * @return user
+	 */
+	 private User showSelectedUser(int id) {
 		UserRepository ur = new UserRepository();
 		User user = ur.getSelectedUser(id);
 		System.out.println("Showing selected user with id " + user.getId() + ": \nName: " + user.getName() 
 		+ ", Profession: " + user.getProfession() + "\n");
-		return user; //testar att ändra
+		return user;
 	}
 	
+	 /**
+	 * The add user method.
+	 *
+	 * @param User user
+	 */
 	private void addUser(User user) {
 		UserRepository ur = new UserRepository();
 		String response = ur.add(user);
@@ -207,6 +231,11 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * The update user method.
+	 *
+	 * @param User user
+	 */
 	private void updateUser(User updatedUserToBe) {
 		UserRepository ur = new UserRepository();
 		String response = ur.update(updatedUserToBe);
@@ -217,10 +246,14 @@ public class UI {
 		}
 		else {
 			System.out.println("User with id " + updatedUserToBe.getId() + " could not be updated. Please check your data.\n");
-		}
-			
+		}			
 	}
 	
+	/**
+	 * The delete user method.
+	 *
+	 * @param User user
+	 */
 	private void deleteUser(User userToDelete) {
 		UserRepository ur = new UserRepository();
 		String response = ur.delete(userToDelete.getId());
@@ -233,7 +266,6 @@ public class UI {
 		else {
 			System.out.println("User with id " + userToDelete.getId() + "could not be deleted. Please check your data.\n");
 		}
-		
-	
+
 	}
 }
