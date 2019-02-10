@@ -26,7 +26,7 @@ public class UI {
 			action = input.nextInt();
 			
 			if (action != 1 && action != 2 && action != 3 && action != 4 && action != 5 && action != 99) { 
-				System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.");
+				System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.\n");
 			}
 			else if (action == 99) {
 				System.out.println("You want to cancel");
@@ -93,8 +93,8 @@ public class UI {
 					}
 					else {
 						showSelectedUser(userId);
-						System.out.print("Please confirm that you want to change this user (Y/N):");
-						String confirmation= input.next() + input.nextLine();
+						System.out.print("Please confirm that you want to change this user (Y/N): ");
+						String confirmation= (input.next() + input.nextLine()).toUpperCase();
 						if(confirmation.equals("Y")) {
 							System.out.print("Enter name of the user: ");
 							String name = input.next() + input.nextLine();
@@ -123,9 +123,9 @@ public class UI {
 					}
 					else {
 						User userToDelete = showSelectedUser(userId);
-						System.out.print("Please confirm that you want to delete this user (Y/N):");
-						String confirmation= input.next() + input.nextLine();
-						if(confirmation.equals("Y")) {
+						System.out.print("Please confirm that you want to delete this user (Y/N): ");
+						String confirmation= (input.next() + input.nextLine()).toUpperCase();
+						if(confirmation.toUpperCase().equals("Y")) {
 							deleteUser(userToDelete);
 							//String response = deleteUser(userId);
 							
