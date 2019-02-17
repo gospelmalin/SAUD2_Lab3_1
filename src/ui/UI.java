@@ -73,8 +73,10 @@ public class UI {
 					else {
 						System.out.print("Enter name of new user: ");
 						String name = input.next() + input.nextLine();
-						if (!name.matches("\\D*")) {
-							System.err.println("Name should not contain any digits.\n");
+						// the expression should allow any kind of letter from any language as well as those special characters common in names.
+						// Name should not start with .
+						if (!name.matches("^[\\p{L} .'-]+$") || name.startsWith(".")) {
+							System.err.println("Name should only contain letters and those special characters used in names. \nName should not start with .\n");
 						}
 						else {
 						//	System.out.println("Name is: " + name + "\n");
@@ -106,8 +108,10 @@ public class UI {
 						if(confirmation.equals("Y")) {
 							System.out.print("Enter name of the user: ");
 							String name = input.next() + input.nextLine();
-							if (!name.matches("\\D*")) {
-								System.err.println("Name should not contain any digits.\n");
+							// the expression should allow any kind of letter from any language as well as those special characters common in names.
+							// Name should not start with .
+							if (!name.matches("^[\\p{L} .'-]+$") || name.startsWith(".")) {
+								System.err.println("Name should only contain letters and those special characters used in names. \nName should not start with .\n");
 							}
 							else {
 								System.out.print("Enter profession of user. \nIf no profession, enter None: ");
