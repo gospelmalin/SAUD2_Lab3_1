@@ -18,95 +18,61 @@ public class UI {
 		System.out.println("Welcome to SAUD2! \nAn app to Show, Add, Update or Delete Users in userdblab2 made by Malin\n");
 	while (true) {
 
-		int action; 
-		System.out.println("What do you want to do? \nPlease enter \n1 to Show all users, \n2 to Show selected user, "
-				+ "\n3 to Add user, \n4 to Update user, \n5 to Delete user, or \n99 to Cancel");
-		// Input must be integer
-		if(!input.hasNextInt()) {
-			System.out.println("Only numbers 1-5 and 99 are allowed.\n");
-		}
-		else {
-			action = input.nextInt();
-			
-			if (action != 1 && action != 2 && action != 3 && action != 4 && action != 5 && action != 99) { 
-				System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.\n");
+		try {
+			int action; 
+			System.out.println("What do you want to do? \nPlease enter \n1 to Show all users, \n2 to Show selected user, "
+					+ "\n3 to Add user, \n4 to Update user, \n5 to Delete user, or \n99 to Cancel");
+			// Input must be integer
+			if(!input.hasNextInt()) {
+				System.out.println("Only numbers 1-5 and 99 are allowed.\n");
 			}
-			else if (action == 99) {
-				System.out.println("You want to cancel");
-				System.out.println("Exiting SAUD2. Welcome back!");
-				input.close();
-				break;
-			}
-			else if (action == 1) {
-				System.out.println("You want to show all users.");
-				showAllUsers(); 
-			}
-			else if (action == 2) {
-				System.out.println("You want to show selected user");
-				System.out.print("Enter id of user to show: ");
-				if(!input.hasNextInt()) {
-					System.out.println("User id must be a number.\n");
+			else {
+				action = input.nextInt();
+				
+				if (action != 1 && action != 2 && action != 3 && action != 4 && action != 5 && action != 99) { 
+					System.out.println("Invalid value entered. You have to enter a value between 1 and 5, or, if you want to cancel, 99.\n");
 				}
-				else {
-					int userId = input.nextInt();
-					boolean userExist = checkUserExistance(userId);
-					if (!userExist) {
-						System.err.println("The user with that id does not exist.\n");
+				else if (action == 99) {
+					System.out.println("You want to cancel");
+					System.out.println("Exiting SAUD2. Welcome back!");
+					input.close();
+					break;
+				}
+				else if (action == 1) {
+					System.out.println("You want to show all users.");
+					showAllUsers(); 
+				}
+				else if (action == 2) {
+					System.out.println("You want to show selected user");
+					System.out.print("Enter id of user to show: ");
+					if(!input.hasNextInt()) {
+						System.out.println("User id must be a number.\n");
 					}
 					else {
-					showSelectedUser(userId); 
-					}
-				}
-			}
-			else if (action == 3) {
-				System.out.println("You want to add a user");
-				System.out.print("Enter id for new user: ");
-				if(!input.hasNextInt()) {
-					System.out.println("User id must be a number.\n");
-				}
-				else {
-					int userId = input.nextInt();
-					boolean userExist = checkUserExistance(userId);
-					if (userExist) {
-						System.err.println("The user with that id already exists.\n");
-					}
-					else {
-						System.out.print("Enter name of new user: ");
-						String name = input.next() + input.nextLine();
-						// the expression should allow any kind of letter from any language as well as those special characters common in names.
-						// Name should not start with .
-						if (!name.matches("^[\\p{L} .'-]+$") || name.startsWith(".")) {
-							System.err.println("Name should only contain letters and those special characters used in names. \nName should not start with .\n");
+						int userId = input.nextInt();
+						boolean userExist = checkUserExistance(userId);
+						if (!userExist) {
+							System.err.println("The user with that id does not exist.\n");
 						}
 						else {
-						//	System.out.println("Name is: " + name + "\n");
-							System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
-							String profession = input.next() + input.nextLine(); // Profession MIGHT contain digits, thus no check here
-						//	System.out.println("Profession is: " + profession + "\n");
-							User user = new User(userId, name, profession);
-							addUser(user); 
+						showSelectedUser(userId); 
 						}
 					}
 				}
-			}
-			else if (action == 4) {
-				System.out.println("You want to update a user");
-				System.out.print("Enter id for the user to update: ");
-				if(!input.hasNextInt()) {
-					System.out.println("User id must be a number.\n");
-				}
-				else {
-					int userId = input.nextInt();
-					boolean userExist = checkUserExistance(userId);
-					if (!userExist) {
-						System.err.println("The user selected for update does not exist.\n");
+				else if (action == 3) {
+					System.out.println("You want to add a user");
+					System.out.print("Enter id for new user: ");
+					if(!input.hasNextInt()) {
+						System.out.println("User id must be a number.\n");
 					}
 					else {
-						showSelectedUser(userId);
-						System.out.print("Please confirm that you want to change this user (Y/N): ");
-						String confirmation= (input.next() + input.nextLine()).toUpperCase();
-						if(confirmation.equals("Y")) {
-							System.out.print("Enter name of the user: ");
+						int userId = input.nextInt();
+						boolean userExist = checkUserExistance(userId);
+						if (userExist) {
+							System.err.println("The user with that id already exists.\n");
+						}
+						else {
+							System.out.print("Enter name of new user: ");
 							String name = input.next() + input.nextLine();
 							// the expression should allow any kind of letter from any language as well as those special characters common in names.
 							// Name should not start with .
@@ -114,47 +80,85 @@ public class UI {
 								System.err.println("Name should only contain letters and those special characters used in names. \nName should not start with .\n");
 							}
 							else {
-								System.out.print("Enter profession of user. \nIf no profession, enter None: ");
-								String profession = input.next() + input.nextLine();
-								User updatedUserToBe = new User(userId, name, profession);
-								updateUser(updatedUserToBe);
+							//	System.out.println("Name is: " + name + "\n");
+								System.out.print("Enter profession of new user. \nIf no profession, enter None: ");
+								String profession = input.next() + input.nextLine(); // Profession MIGHT contain digits, thus no check here
+							//	System.out.println("Profession is: " + profession + "\n");
+								User user = new User(userId, name, profession);
+								addUser(user); 
 							}
 						}
-						else {
-							System.out.println("Update cancelled.\n");
-						} 
 					}
 				}
-			}
-			else if (action == 5) {
-				System.out.println("You want to delete a user");
-				System.out.print("Enter id for the user to delete: ");
-				if(!input.hasNextInt()) {
-					System.out.println("User id must be a number.\n");
-				}
-				else {
-					int userId = input.nextInt();
-					boolean userExist = checkUserExistance(userId);
-					if (!userExist) {
-						System.err.println("The user selected for deletion does not exist.\n");
+				else if (action == 4) {
+					System.out.println("You want to update a user");
+					System.out.print("Enter id for the user to update: ");
+					if(!input.hasNextInt()) {
+						System.out.println("User id must be a number.\n");
 					}
 					else {
-						User userToDelete = showSelectedUser(userId);
-						System.out.print("Please confirm that you want to delete this user (Y/N): ");
-						String confirmation= (input.next() + input.nextLine()).toUpperCase();
-						if(confirmation.toUpperCase().equals("Y")) {
-							deleteUser(userToDelete);							
+						int userId = input.nextInt();
+						boolean userExist = checkUserExistance(userId);
+						if (!userExist) {
+							System.err.println("The user selected for update does not exist.\n");
 						}
 						else {
-							System.out.println("Deletion of user " + userToDelete.getId() + " cancelled.\n");
-
+							showSelectedUser(userId);
+							System.out.print("Please confirm that you want to change this user (Y/N): ");
+							String confirmation= (input.next() + input.nextLine()).toUpperCase();
+							if(confirmation.equals("Y")) {
+								System.out.print("Enter name of the user: ");
+								String name = input.next() + input.nextLine();
+								// the expression should allow any kind of letter from any language as well as those special characters common in names.
+								// Name should not start with .
+								if (!name.matches("^[\\p{L} .'-]+$") || name.startsWith(".")) {
+									System.err.println("Name should only contain letters and those special characters used in names. \nName should not start with .\n");
+								}
+								else {
+									System.out.print("Enter profession of user. \nIf no profession, enter None: ");
+									String profession = input.next() + input.nextLine();
+									User updatedUserToBe = new User(userId, name, profession);
+									updateUser(updatedUserToBe);
+								}
+							}
+							else {
+								System.out.println("Update cancelled.\n");
+							} 
 						}
 					}
-				
 				}
-			}
-			
+				else if (action == 5) {
+					System.out.println("You want to delete a user");
+					System.out.print("Enter id for the user to delete: ");
+					if(!input.hasNextInt()) {
+						System.out.println("User id must be a number.\n");
+					}
+					else {
+						int userId = input.nextInt();
+						boolean userExist = checkUserExistance(userId);
+						if (!userExist) {
+							System.err.println("The user selected for deletion does not exist.\n");
+						}
+						else {
+							User userToDelete = showSelectedUser(userId);
+							System.out.print("Please confirm that you want to delete this user (Y/N): ");
+							String confirmation= (input.next() + input.nextLine()).toUpperCase();
+							if(confirmation.toUpperCase().equals("Y")) {
+								deleteUser(userToDelete);							
+							}
+							else {
+								System.out.println("Deletion of user " + userToDelete.getId() + " cancelled.\n");
 
+							}
+						}
+					
+					}
+				}
+				
+
+			}
+		} catch (Exception e) {
+			System.err.println("Oops, an exception occurred while running UI: + e.getMessage");
 		}
 	}
 	// closing scanner
